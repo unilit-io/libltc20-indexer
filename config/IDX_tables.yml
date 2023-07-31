@@ -1,0 +1,72 @@
+ltc20_ins_list: #collect all possible inscription. For mint inscriptions after fully minted, this table will omit them.
+    ins_id: TEXT PRIMARY KEY #inscription id. For tx in snapshots, we need modify the ins_id.
+    genesis_tx_id: TEXT #tx id for mint/create this inscription
+    sender: TEXT #sender of this genesis_tx_id. For deploy/mint, this is empty.
+    receiver: TEXT  #receiver of this genesis_tx_id.
+    action: TEXT # 'deploy/mint/transfer/snapshot'
+    tick: TEXT  #tick
+    supply: BIGINT #only for deploy
+    lim: BIGINT #only for deploy
+    dec: BIGINT #the decimal for deploy script
+    amt: BIGINT #if 'action' is 'deply', then amt ==0
+    ins_num: BIGINT #the inscription number. use to rank the inscriptions in a block
+    height: BIGINT #the genesis height of the inscription.
+    time: TEXT  #inscribed time. This time is actually determined only by height. So it is not necessary.
+    c_offset: BIGINT #genesis_offset in the gensis_tx_id output for the inscription
+    value: BIGINT  #the value of the genesis output for this inscription
+    valid: BOOLEAN #whether this inscription is valid.
+    spent: BOOLEAN #whether this inscription/utxo is spent. 
+    spent_tx: TEXT #in which tx this inscription is been spent
+    spent_offset: BIGINT #the offset of the spent tx
+    spent_to: TEXT #the location of the inscription (in ordinals protocal, we will omit the spends after the first spent)
+    spent_height: BIGINT #the height that this inscription is been spent
+    spent_time: TEXT #the time when this inscription is been spent
+ltc20_list: #the complete list for ltc20
+    id: SERIAL PRIMARY KEY #id
+    ins_num: BIGINT #deploy inscription number
+    ins_id: TEXT #deploy inscription id
+    tick: TEXT #tick
+    supply: BIGINT #the total supply fo this tick
+    lim: BIGINT #limit for each inscription
+    dec: BIGINT #the decimals
+    minted: BIGINT #how many have been minted
+    height: BIGINT #deploy in which height
+    start_mint: BIGINT #which inscription is the first valid inscription(inscription number)
+    end_mint: BIGINT #which inscription is the last valid inscription (inscription number)
+utxo_spent_list: #the tx pairs
+    id: SERIAL PRIMARY KEY #id
+    tx_id: TEXT #tx_id of a spent
+    input: TEXT #input of the spent inp_tx_id:vin
+    output: TEXT #output of the spent tx_id:vout
+    address: TEXT #the address of the output of the spent
+    value: BIGINT #the output value of the spent
+    height: BIGINT #the height of such a spent
+    valid: BOOLEAN #the utxo is for transfer if valid = true
+    spent: BOOLEAN #do we spend this utxo?
+address_tx_history: #how the balance changes
+    id: SERIAL PRIMARY KEY #id
+    address: TEXT #the address
+    tick: TEXT #the tick
+    action: TEXT #includes: mint/transfer-inscribe/send/receive/snapshot
+    transferable_delta: BIGINT #how much the transferable changes
+    available_delta: BIGINT #how much the available changes
+    total_delta: BIGINT #how much the total changes
+    due_to_tx: TEXT #due to which tx
+    due_to_ins: TEXT #due to which inscription (inscription id)
+    height: BIGINT #in which height
+    time: TEXT #height time
+address_balance:
+    id: SERIAL PRIMARY KEY #id
+    address: TEXT #address
+    tick: TEXT #tick
+    transferable: BIGINT #transferable
+    available: BIGINT #available
+    total: BIGINT #total
+misc:
+    id: SERIAL PRIMARY KEY #id
+    last_ins_num: BIGINT #last ins num
+    last_height: BIGINT #last block height
+balance_history:
+    height: BIGINT PRIMARY KEY #which height does this chechpoint take
+    address_balance: TEXT #the name of the table for history address balance
+    address_tx: TEXT #the name of the table for history address tx
