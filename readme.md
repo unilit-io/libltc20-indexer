@@ -43,6 +43,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+#### The present indexer is heavily dependent on ord-litecoin, which possesses incomplete SAT calculations. We will release next-version indexer based on binary witness decoding supported by Gate.io soon.
+
 Developers can integrate this library in the code according to their needs.
 
 When the `main/Updater.py` program is running, it will analyze and index the latest data based on the input data, and output a detailed list of all Token information and holder balances in postgreSQL database.
