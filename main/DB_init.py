@@ -1,12 +1,15 @@
 import os, sys
 from psycopg2 import sql, pool
 
-path_cst = os.path.abspath('../base/')+'/'
+current_file_path = os.path.abspath(__file__)
+current_directory = os.path.dirname(current_file_path)
+faster_directory =  os.path.abspath(os.path.join(current_directory, ".."))
+path_cst = f"{faster_directory}/base"
 sys.path.append(path_cst)
 from DB_Base import DB_Base
 
 from dotenv import load_dotenv
-dotenv_path = '../config/.env'
+dotenv_path = f'{faster_directory}/config/.env'
 load_dotenv(dotenv_path)
 
 def generate_a_db_manager():

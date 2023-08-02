@@ -146,7 +146,7 @@ To get a local copy up and running follow these simple example steps.
 
 9. run `main/Updater.py`
     ```sh
-    pip install psycopg2-binary tqdm python-dotenv
+    pip install psycopg2-binary tqdm python-dotenv pyyaml
     ```
 
     ```python
